@@ -27,8 +27,8 @@
 
 // Constants
 // Something I'll probably want to use Python to rip up and change on-the-fly later on. Hm.
-const char* ssid     = "Noyes 1014 2W";
-const char* password = "primal-canning-getup";
+const char* ssid     = "___________________";
+const char* password = "___________________";
 
 #define BAUD_RATE 115200        // (lol) How quickly to resolve the 1s and 0s sent over Serial into ASCII.
 #define LOOP_RATE   1000        // (ms)  How many milliseconds to pause before running the loop again.
@@ -109,7 +109,7 @@ void setup() {
   webSocket.begin();
   webSocket.onEvent(onWebSocketEvent);
   Serial.println("\n===\nWebSocket server established\n===\n");
-  
+
 
   c = 0;
 
@@ -120,19 +120,19 @@ void setup() {
 
 /*
  * Here's how our loop works.
- * 
+ *
  * First we read in from the ADC_PIN; this is the pin connected to the wire
  * that links the ESP-32 with your EMG sensor. Your EMG sensor is constantly
  * pushing out a voltage along this wire that the ESP-32 detects and assigns a
  * number to. The higher the number, the more voltage is being pushed along the
  * wire, the stronger a flex your EMG sensor is picking up.
- * 
+ *
  * The range of numbers is between 0 and 4,000-something, I think 4096 but I'm
  * not sure of the exact amount; and the voltages those correspond to are actually
  * between 0 and 3.3 volts. So if your EMG sensor is constantly giving you maxed-out
  * readings when you flex just a little bit, it means it's sending out the maximum 3.3
  * volts. How do you fix that?
- * 
+ *
  * You've got a few options.
  * - If there's a "gain knob" on your EMG sensor, try playing around with that.
  *   That knob actually dials up and down the resistance inside the sensor; higher resistances
@@ -162,7 +162,7 @@ void loop() {
 
   emg_in = analogRead(ADC_PIN);
   sprintf(broadcast_message, "%u", emg_in);
-  
+
   Serial.println("-------------------- STATUS --------------------");
   Serial.print("Looping rate (milliseconds)                 : ");
   Serial.println(LOOP_RATE);
@@ -175,7 +175,7 @@ void loop() {
 
   Serial.print("Value coming in from our pin     : ");
   Serial.println(emg_in);
-  
+
   Serial.print("Message being broadcasted        : ");
   if (webSocket.broadcastTXT(broadcast_message))
     Serial.println(broadcast_message);
@@ -186,7 +186,7 @@ void loop() {
     Serial.print("                                   "); // Proper spacing.
     Serial.println("might just be connecting to a new client.)");
   }
-  
+
   for (int dot_time = LOOP_RATE; dot_time > 0; dot_time = dot_time - DOT_RATE) {
     Serial.print(".");
     delay(DOT_RATE);
